@@ -12,8 +12,15 @@ class TodoListViewController: UITableViewController {
 
     var itemArray = ["Find Mike", "Buy Eggos", "Destroy Demogorgon"]
     
+    let defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let items = defaults.array(forKey: "TodoListArray") as? [String] {
+            itemArray = items
+        }
+        
     }
 
     // MARK: TableView Datasource Methods
@@ -61,6 +68,8 @@ class TodoListViewController: UITableViewController {
             // what will happen when user clicks on Add Item UIAlertAction button
             self.itemArray.append(textField.text!)
             // here I can write some validation so nil / null element will not be added to the array (or sht like -empty- will be added instead
+            
+            self.defaults.set(self.itemArray, forKey: "TodoListArray")
             
             self.tableView.reloadData()
             
